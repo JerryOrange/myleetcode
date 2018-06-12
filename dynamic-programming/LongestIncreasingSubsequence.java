@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  * 300. Longest Increasing Subsequence
  * Given an unsorted array of integers, find the length of longest increasing subsequence.
@@ -33,9 +35,40 @@ public class LongestIncreasingSubsequence {
         return LIS;
     }
 
+    /**
+     * O(nlogn) time complexity
+     *
+     * @param nums
+     * @return
+     */
+    public int lengthOfLis(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        Stack<Integer> stack = new Stack<Integer>();
+        stack.push(nums[0]);
+        for (int i = 1; i < nums.length; i++) {
+            //大于栈顶元素时，num直接入栈
+            if (nums[i] > stack.peek()) {
+                stack.push(nums[i]);
+            } else {
+                //小于时，栈底遍历到栈顶
+                for (int j = 0; j < stack.size(); j++) {
+                    //若栈中元素大于等于num，则替换该元素，并跳出循环
+                    if (nums[i] <= stack.get(j)) {
+                        stack.set(j, nums[i]);
+                        break;
+                    }
+                }
+            }
+        }
+        return stack.size();
+    }
+
     public static void main(String[] args) {
-        int[] A = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        int[] A = {4, 10, 4, 3, 8, 9};
         int solution = new LongestIncreasingSubsequence().lengthOfLIS(A);
-        System.out.println("The longest increasing subsequence is " + solution);
+        int solution1 = new LongestIncreasingSubsequence().lengthOfLis(A);
+        System.out.println("The longest increasing subsequence is " + solution + " / " + solution1);
     }
 }
