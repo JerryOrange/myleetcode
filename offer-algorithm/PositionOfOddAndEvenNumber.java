@@ -33,4 +33,30 @@ public class PositionOfOddAndEvenNumber {
         }
         return;
     }
+
+    /**
+     * 变形版插入排序
+     *
+     * @param array
+     */
+    public void reOrderArrayByInsertSort(int [] array) {
+        if (array == null || array.length < 2) {
+            return;
+        }
+        for (int i = 1; i < array.length; i++) {
+            int temp = array[i];
+            int j = i - 1;
+            for (; j >= 0; j--) {
+                if((temp & 1) == 1 && (array[j] & 1) == 0) {
+                    //采用移动而不是交换的方式
+                    array[j + 1] = array[j];
+                }else{
+                    break;
+                }
+            }
+            //填入最终的空位
+            array[j + 1] = temp;
+        }
+        return;
+    }
 }
